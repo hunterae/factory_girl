@@ -6,10 +6,15 @@ module FactoryGirl
   # Sequences are defined using Factory.sequence. Sequence values are generated
   # using next.
   class Sequence
+    
+    def reset
+      @value = @start_value
+    end
 
     def initialize(value = 1, &proc) #:nodoc:
       @proc  = proc
       @value = value || 1
+      @start_value = @value
     end
 
     # Returns the next value for this sequence

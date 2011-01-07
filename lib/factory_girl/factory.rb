@@ -25,6 +25,14 @@ module FactoryGirl
 
     self.factories[name] = factory
   end
+  
+  def self.reset_sequences
+    self.factories.each do |name, factory|
+      factory.sequences.each do |name, sequence|
+        sequence.reset
+      end
+    end
+  end
 
   # Raised when a factory is defined that attempts to instantiate itself.
   class AssociationDefinitionError < RuntimeError
@@ -41,6 +49,16 @@ module FactoryGirl
   class Factory
     attr_reader :name #:nodoc:
     attr_reader :attributes #:nodoc:
+    
+    def sequences
+      @sequences ||= {}
+    end
+    
+    def reset_sequence(name)
+      @sequences[name].reset
+    end
+    
+    
 
     def factory_name
       puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
